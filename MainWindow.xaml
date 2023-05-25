@@ -16,9 +16,9 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <!--<Label Grid.Row="0" Grid.Column="0" Content="Genre:" Margin="5"/>-->
-        <ComboBox Height="45" Width="100" Grid.Row="1" Grid.Column="0" x:Name="GenreComboBox" Margin="270,5,10,5"
+        <!--<ComboBox Height="45" Width="100" Grid.Row="1" Grid.Column="0" x:Name="GenreComboBox" Margin="270,5,10,5"
                   ItemsSource="{Binding Genres}" SelectedItem="{Binding SelectedGenre, UpdateSourceTrigger=PropertyChanged}"
-                  DisplayMemberPath="." SelectedValuePath="." />
+                  DisplayMemberPath="." SelectedValuePath="." />-->
         <Button Height="45" Width="100" Grid.Row="1" Grid.Column="1" x:Name="ParseButton" Content="Parse" Margin="110,5,40,5" Click="ParseButton_Click"/>
         <ListBox Grid.Row="0" Grid.Column="1" x:Name="GamesListBox" Margin="5"
                  ItemsSource="{Binding Games}" DisplayMemberPath="Name" SelectedValuePath="."
