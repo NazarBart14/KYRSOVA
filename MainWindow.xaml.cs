@@ -81,6 +81,12 @@ namespace KYRSOVA
                     _selectedGames.Add(game);
                 }
             }
+            var selectedGame = GamesListBox.SelectedItem as Game;
+            if (selectedGame != null)
+            {
+                
+                MessageBox.Show($"Name: {selectedGame.Name}\nPrice: {selectedGame.Price}\nGenre: {selectedGame.Genre}");
+            }
         }
 
         private void MoveButton_Click(object sender, RoutedEventArgs e)
@@ -91,7 +97,7 @@ namespace KYRSOVA
                 SelectedGamesListBox.Items.Add(game);
             }
 
-            _selectedGames.Clear();
+           
         }
 
         private void ParseGames()
