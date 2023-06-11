@@ -81,11 +81,11 @@ namespace KYRSOVA
                 }
             }
 
-            var selectedGame = GamesListBox.SelectedItem as Game;  
-            if (selectedGame != null) 
-            {
-                // MessageBox.Show($"Name: {selectedGame.Name}\nPrice: {selectedGame.Price}\nGenre: {selectedGame.Genre}"); // Виведення інформації про обрану гру
-            }
+            //var selectedGame = GamesListBox.SelectedItem as Game;  
+            //if (selectedGame != null) 
+            //{
+            //     MessageBox.Show($"Name: {selectedGame.Name}\nPrice: {selectedGame.Price}\nGenre: {selectedGame.Genre}"); // Виведення інформації про обрану гру
+            //}
         }
 
         private void MoveButton_Click(object sender, RoutedEventArgs e) // Переміщення вибраних ігор в список вибраних ігор
