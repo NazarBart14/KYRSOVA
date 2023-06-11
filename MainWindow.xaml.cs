@@ -14,19 +14,18 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 using HtmlAgilityPack;
 
 namespace KYRSOVA
 {
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
-        private List<Game> _games;
-        private List<Game> _selectedGames;
-        private List<string> _genres;
-        private string _selectedGenre;
+        private List<Game> _games; // Список ігор
+        private List<Game> _selectedGames; // Список вибраних ігор
+        private List<string> _genres; // Список жанрів
+        private string _selectedGenre; // Обраний жанр
 
-        public List<Game> Games
+        public List<Game> Games // Список ігор
         {
             get { return _games; }
             set
@@ -36,7 +35,7 @@ namespace KYRSOVA
             }
         }
 
-        public List<string> Genres
+        public List<string> Genres // Список жанрів
         {
             get { return _genres; }
             set
@@ -46,7 +45,7 @@ namespace KYRSOVA
             }
         }
 
-        public string SelectedGenre
+        public string SelectedGenre // Обраний жанр
         {
             get { return _selectedGenre; }
             set
@@ -57,50 +56,52 @@ namespace KYRSOVA
             }
         }
 
-        public MainWindow()
+        public MainWindow() 
         {
             InitializeComponent();
             DataContext = this;
             _selectedGames = new List<Game>();
         }
 
-        private void ParseButton_Click(object sender, RoutedEventArgs e)
+        private void ParseButton_Click(object sender, RoutedEventArgs e) // Парсинг ігор
         {
             ParseGames();
         }
 
-        private void GamesListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void GamesListBox_SelectionChanged(object sender, SelectionChangedEventArgs e) // Вибір ігор
         {
             var selectedItems = GamesListBox.SelectedItems;
             _selectedGames.Clear();
 
-            foreach (var item in selectedItems)
+            foreach (var item in selectedItems) // Додавання вибраних ігор в список вибраних ігор
             {
                 if (item is Game game)
                 {
                     _selectedGames.Add(game);
                 }
             }
-            var selectedGame = GamesListBox.SelectedItem as Game;
-            if (selectedGame != null)
+
+            var selectedGame = GamesListBox.SelectedItem as Game;  
+            if (selectedGame != null) 
             {
-                
-                MessageBox.Show($"Name: {selectedGame.Name}\nPrice: {selectedGame.Price}\nGenre: {selectedGame.Genre}");
+                // MessageBox.Show($"Name: {selectedGame.Name}\nPrice: {selectedGame.Price}\nGenre: {selectedGame.Genre}"); // Виведення інформації про обрану гру
             }
         }
 
-        private void MoveButton_Click(object sender, RoutedEventArgs e)
+        private void MoveButton_Click(object sender, RoutedEventArgs e) // Переміщення вибраних ігор в список вибраних ігор
         {
             foreach (var game in _selectedGames)
             {
-                Games.Remove(game);
-                SelectedGamesListBox.Items.Add(game);
+                if (!SelectedGamesListBox.Items.Contains(game))
+                {
+                    Games.Remove(game);
+                    SelectedGamesListBox.Items.Add(game);
+                }
             }
-
-           
         }
 
-        private void ParseGames()
+
+        private void ParseGames() // Парсинг ігор
         {
             var games = new List<Game>();
             var genres = new List<string>();
@@ -108,9 +109,9 @@ namespace KYRSOVA
 
             var web = new HtmlWeb();
             var doc = web.Load(url);
-            var nodes = doc.DocumentNode.SelectNodes("//div[@class='responsive_search_name_combined']");
+            var nodes = doc.DocumentNode.SelectNodes("//div[@class='responsive_search_name_combined']"); 
 
-            foreach (var node in nodes)
+            foreach (var node in nodes)  // Парсинг ігор
             {
                 var nameNode = node.SelectSingleNode(".//span[@class='title']");
                 var priceNode = node.SelectSingleNode(".//div[@class='col search_price_discount_combined responsive_secondrow']");
@@ -140,35 +141,35 @@ namespace KYRSOVA
                 }
             }
 
-            Games = games;
-            Genres = genres.OrderBy(g => g).ToList();
-            SelectedGenre = string.Empty;
+            Games = games; 
+            Genres = genres.OrderBy(g => g).ToList(); 
+            SelectedGenre = string.Empty; 
         }
 
-        private void RefreshGames()
+        private void RefreshGames() // Оновлення списку ігор
         {
-            if (string.IsNullOrEmpty(SelectedGenre))
+            if (string.IsNullOrEmpty(SelectedGenre))  // Перевірка на обраний жанр
             {
-                Games = _games;
+                Games = _games; // Оновлення списку ігор на основі вибраного жанру
             }
-            else
+            else 
             {
-                Games = _games.Where(g => g.Genre == SelectedGenre).ToList();
+                Games = _games.Where(g => g.Genre == SelectedGenre).ToList(); // Фільтрування ігор за обраним жанром
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged; // Подія зміни властивостей
 
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) // Оновлення властивостей
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 
-    public class Game
-    {
-        public string Name { get; set; }
-        public string Price { get; set; }
-        public string Genre { get; set; }
+    public class Game // Клас ігор
+    { 
+        public string Name { get; set; } // Назва гри
+        public string Price { get; set; } // Ціна гри
+        public string Genre { get; set; } // Жанр гри
     }
 }
