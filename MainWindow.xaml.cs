@@ -92,11 +92,11 @@ namespace KYRSOVA
         {
             foreach (var game in _selectedGames)
             {
-                if (!SelectedGamesListBox.Items.Contains(game))
-                {
-                    Games.Remove(game);
-                    SelectedGamesListBox.Items.Add(game);
-                }
+                //if (!SelectedGamesListBox.Items.Contains(game))
+                //{
+                //    Games.Remove(game);
+                //    SelectedGamesListBox.Items.Add(game);
+                //}
             }
         }
 
@@ -164,8 +164,38 @@ namespace KYRSOVA
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-    }
 
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+
+            var selectedItems = GamesListBox.SelectedItems;
+            _selectedGames.Clear();
+            foreach (var item in selectedItems) // Додавання вибраних ігор в список вибраних ігор
+            {
+                if (item is Game game)
+                {
+                    _selectedGames.Add(game);
+                }
+            }
+            foreach (var game in _selectedGames)
+            {
+                Games.Remove(game);
+            }   
+
+        }
+        private void LibraryButton_Click(object sender, RoutedEventArgs e)
+        {
+
+
+            LibraryWindow libraryWindow = new LibraryWindow();
+            libraryWindow.Show();
+
+
+        }
+        
+
+        
+    }
     public class Game // Клас ігор
     { 
         public string Name { get; set; } // Назва гри
