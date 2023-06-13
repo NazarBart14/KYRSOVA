@@ -23,5 +23,10 @@ namespace KYRSOVA
         {
             InitializeComponent();
         }
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            SelectedGamesListBox.Items.Remove(SelectedGamesListBox.SelectedItem);
+        }
     }
 }

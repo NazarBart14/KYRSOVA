@@ -8,24 +8,26 @@
         Title="Steam Game Parser" Height="480" Width="800">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="390"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="120"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <!--<Label Grid.Row="0" Grid.Column="0" Content="Genre:" Margin="5"/>-->
-        <!--<ComboBox Height="45" Width="100" Grid.Row="1" Grid.Column="0" x:Name="GenreComboBox" Margin="270,5,10,5"
-                  ItemsSource="{Binding Genres}" SelectedItem="{Binding SelectedGenre, UpdateSourceTrigger=PropertyChanged}"
-                  DisplayMemberPath="." SelectedValuePath="." />-->
-        <Button Height="45" Width="100" Grid.Row="1" Grid.Column="1" x:Name="ParseButton" Content="Parse" Margin="110,5,40,5" Click="ParseButton_Click"/>
+
         <ListBox Grid.Row="0" Grid.Column="1" x:Name="GamesListBox" Margin="5"
-                 ItemsSource="{Binding Games}" DisplayMemberPath="Name" SelectedValuePath="."
-                 SelectionMode="Extended" SelectionChanged="GamesListBox_SelectionChanged"/>
-        
+         ItemsSource="{Binding Games}" DisplayMemberPath="Name"
+         SelectionMode="Extended" SelectionChanged="GamesListBox_SelectionChanged"/>
+
+        <ListBox Grid.Row="0" Grid.Column="0" x:Name="SelectedGamesListBox" Margin="5,0,5,5"
+         ItemsSource="{Binding SelectedGames}" DisplayMemberPath="Name"
+         SelectionMode="Extended"/>
         <Button Height="45" Width="100" Grid.Row="1" Grid.Column="1" x:Name="MoveButton" Content="Move" Margin="10,5,160,5" Click="MoveButton_Click"/>
-        <Button Height="45" Width="100" Grid.Row="1" Grid.Column="1" x:Name="DeleteButton" Content="Delete" Margin="330,5,40,5" Click="DeleteButton_Click"/>
-        <Button Height="45" Width="75" Grid.Row="0" Grid.Column="0"  Margin="-20 -310 10 10" Content="Your Library" Click="LibraryButton_Click" />
+
+        <Button Height="45" Width="100" Grid.Row="1" Grid.Column="1" x:Name="ParseButton" Content="Parse" Margin="110,5,40,5" Click="ParseButton_Click"/>
+
+        <Button Height="45" Width="75" Grid.Row="0" Grid.Column="0"  Margin="-20 -330 10 10" Content="Your Library" Click="LibraryButton_Click" />
+
     </Grid>
 </Window>
