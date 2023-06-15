@@ -16,10 +16,11 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <ListBox Grid.Row="0" Grid.Column="1" Margin="5" x:Name="SelectedGamesListBox">
-           
-        </ListBox>
+        <ListBox Grid.Row="0" Grid.Column="0" x:Name="SelectedGamesListBox" Margin="5,0,5,5"
+         ItemsSource="{Binding SelectedGames}" DisplayMemberPath="Name"
+         SelectionMode="Extended"/>
 
         <Button Grid.Row="1" Grid.Column="1" Height="40" Width="70" Content="Delete" Margin="-290 10 10 10" Click="DeleteButton_Click"/>
+        <Button Grid.Row="1" Grid.Column="1" Height="40" Width="70" Content="Clear" Margin="-130 10 10 10" Click="ClearButton_Click"/>
     </Grid>
 </Window>

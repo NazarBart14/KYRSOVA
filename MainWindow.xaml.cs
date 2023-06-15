@@ -20,6 +20,7 @@ namespace KYRSOVA
 {
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
+        private LibraryWindow _libraryWindow; // Вікно бібліотеки
         private List<Game> _games; // Список ігор
         private List<Game> _selectedGames; // Список вибраних ігор
         private List<string> _genres; // Список жанрів
@@ -92,6 +93,12 @@ namespace KYRSOVA
                     SelectedGamesListBox.Items.Add(game);
                 }
             }
+
+            // Перевірка, чи вікно бібліотеки вже відкрите
+            if (_libraryWindow != null && _libraryWindow.IsVisible)
+            {
+                _libraryWindow.UpdateGames(SelectedGamesListBox.Items.Cast<Game>().ToList());
+            }
         }
 
         private async Task ParseGamesAsync() // Парсинг ігор
@@ -160,8 +167,11 @@ namespace KYRSOVA
 
         private void LibraryButton_Click(object sender, RoutedEventArgs e)
         {
-            LibraryWindow libraryWindow = new LibraryWindow();
-            libraryWindow.Show();
+            if (_libraryWindow == null || !_libraryWindow.IsVisible)
+            {
+                _libraryWindow = new LibraryWindow();
+                _libraryWindow.Show();
+            }
         }
     }
 
