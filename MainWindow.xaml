@@ -12,7 +12,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="120"/>
+            <ColumnDefinition Width="400"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
@@ -20,12 +20,14 @@
          ItemsSource="{Binding Games}" DisplayMemberPath="Name"
          SelectionMode="Extended" SelectionChanged="GamesListBox_SelectionChanged"/>
 
-       
+        <ListBox Grid.Row="0" Grid.Column="0" x:Name="SelectedGamesListBox" Margin="5,0,5,5"
+         ItemsSource="{Binding SelectedGames}" DisplayMemberPath="Name"
+         SelectionMode="Extended"/>
+        <Button Grid.Row="1" Grid.Column="0" Height="40" Width="70" Content="Clear" Margin="110 10 10 10" Click="ClearButton_Click"/>
         <Button Height="45" Width="100" Grid.Row="1" Grid.Column="1" x:Name="MoveButton" Content="Move" Margin="10,5,160,5" Click="MoveButton_Click"/>
 
         <Button Height="45" Width="100" Grid.Row="1" Grid.Column="1" x:Name="ParseButton" Content="Parse" Margin="110,5,40,5" Click="ParseButton_Click"/>
 
-        <Button Height="45" Width="75" Grid.Row="0" Grid.Column="0"  Margin="-20 -330 10 10" Content="Your Library" Click="LibraryButton_Click" />
-
+        <Button Grid.Row="1" Grid.Column="0" Height="40" Width="70" Content="Delete" Margin="-50 10 10 10" Click="DeleteButton_Click"/>
     </Grid>
 </Window>

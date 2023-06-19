@@ -20,12 +20,14 @@ namespace KYRSOVA
 {
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
-        private LibraryWindow _libraryWindow; // Вікно бібліотеки
+
+       
         private List<Game> _games; // Список ігор
         private List<Game> _selectedGames; // Список вибраних ігор
         private List<string> _genres; // Список жанрів
         private string _selectedGenre; // Обраний жанр
-
+        
+        
         public List<Game> Games // Список ігор
         {
             get { return _games; }
@@ -62,6 +64,8 @@ namespace KYRSOVA
             InitializeComponent();
             DataContext = this;
             _selectedGames = new List<Game>();
+            
+            
         }
 
         private async void ParseButton_Click(object sender, RoutedEventArgs e) // Парсинг ігор
@@ -88,19 +92,27 @@ namespace KYRSOVA
             foreach (var game in _selectedGames)
             {
                 if (!SelectedGamesListBox.Items.Contains(game))
-                {
+                {   
                     Games.Remove(game);
                     SelectedGamesListBox.Items.Add(game);
                 }
             }
 
-            // Перевірка, чи вікно бібліотеки вже відкрите
-            if (_libraryWindow != null && _libraryWindow.IsVisible)
+            
+        }
+        private void ClearButton_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show("Ви впевнені, що бажаєте очистити свою бібліотеку?", "Підтвердження видалення", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.Yes)
             {
-                _libraryWindow.UpdateGames(SelectedGamesListBox.Items.Cast<Game>().ToList());
+                SelectedGamesListBox.Items.Clear();
             }
         }
-
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            SelectedGamesListBox.Items.Remove(SelectedGamesListBox.SelectedItem);
+        }
         private async Task ParseGamesAsync() // Парсинг ігор
         {
             var games = new List<Game>();
@@ -165,15 +177,9 @@ namespace KYRSOVA
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private void LibraryButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (_libraryWindow == null || !_libraryWindow.IsVisible)
-            {
-                _libraryWindow = new LibraryWindow();
-                _libraryWindow.Show();
-            }
-        }
+        
     }
+    
 
     public class Game // Клас ігор
     {
