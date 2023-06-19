@@ -15,19 +15,19 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using HtmlAgilityPack;
+using System.Data;
+using System.Data.SqlClient;
 
 namespace KYRSOVA
 {
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
-
-       
+        private bool _gamesParsed; // Флаг, що показує, чи були ігри спарсені
         private List<Game> _games; // Список ігор
         private List<Game> _selectedGames; // Список вибраних ігор
         private List<string> _genres; // Список жанрів
         private string _selectedGenre; // Обраний жанр
-        
-        
+
         public List<Game> Games // Список ігор
         {
             get { return _games; }
@@ -64,13 +64,15 @@ namespace KYRSOVA
             InitializeComponent();
             DataContext = this;
             _selectedGames = new List<Game>();
-            
-            
+            _gamesParsed = false;
+            ParseButton.IsEnabled = !_gamesParsed;
         }
 
         private async void ParseButton_Click(object sender, RoutedEventArgs e) // Парсинг ігор
         {
             await ParseGamesAsync();
+            ParseButton.IsEnabled = false;
+            _gamesParsed = true;
         }
 
         private void GamesListBox_SelectionChanged(object sender, SelectionChangedEventArgs e) // Вибір ігор
@@ -92,14 +94,15 @@ namespace KYRSOVA
             foreach (var game in _selectedGames)
             {
                 if (!SelectedGamesListBox.Items.Contains(game))
-                {   
+                {
                     Games.Remove(game);
                     SelectedGamesListBox.Items.Add(game);
                 }
             }
 
-            
+            SaveGamesToDatabase();
         }
+
         private void ClearButton_Click(object sender, RoutedEventArgs e)
         {
             MessageBoxResult result = MessageBox.Show("Ви впевнені, що бажаєте очистити свою бібліотеку?", "Підтвердження видалення", MessageBoxButton.YesNo, MessageBoxImage.Question);
@@ -107,12 +110,16 @@ namespace KYRSOVA
             if (result == MessageBoxResult.Yes)
             {
                 SelectedGamesListBox.Items.Clear();
+                SaveGamesToDatabase();
             }
         }
+
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             SelectedGamesListBox.Items.Remove(SelectedGamesListBox.SelectedItem);
+            SaveGamesToDatabase();
         }
+
         private async Task ParseGamesAsync() // Парсинг ігор
         {
             var games = new List<Game>();
@@ -123,18 +130,20 @@ namespace KYRSOVA
             var doc = await web.LoadFromWebAsync(url);
             var nodes = doc.DocumentNode.SelectNodes("//div[@class='responsive_search_name_combined']");
 
-            foreach (var node in nodes)  // Парсинг ігор
+            foreach (var node in nodes) // Парсинг ігор
             {
                 var nameNode = node.SelectSingleNode(".//span[@class='title']");
                 var priceNode = node.SelectSingleNode(".//div[@class='col search_price_discount_combined responsive_secondrow']");
                 var genreNode = node.SelectSingleNode(".//span[@class='search_tag']/a");
+                var iconNode = node.SelectSingleNode(".//div[@class='col search_capsule']/img");
 
                 if (nameNode != null && priceNode != null)
                 {
                     var game = new Game
                     {
                         Name = nameNode.InnerText.Trim(),
-                        Price = priceNode.InnerText.Trim()
+                        Price = priceNode.InnerText.Trim(),
+                        Icon = iconNode?.GetAttributeValue("src", null) // Assign the icon URL if available
                     };
 
                     if (genreNode != null)
@@ -160,7 +169,7 @@ namespace KYRSOVA
 
         private void RefreshGames() // Оновлення списку ігор
         {
-            if (string.IsNullOrEmpty(SelectedGenre))  // Перевірка на обраний жанр
+            if (string.IsNullOrEmpty(SelectedGenre)) // Перевірка на обраний жанр
             {
                 Games = _games; // Оновлення списку ігор на основі вибраного жанру
             }
@@ -170,21 +179,50 @@ namespace KYRSOVA
             }
         }
 
+        private void SaveGamesToDatabase() // Збереження ігор в базу даних
+        {
+            string connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Librery;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False"; // Рядок підключення до бази даних
+            string tableName = "GameLibrery"; // Назва таблиці
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+
+                // Очищення таблиці
+                string clearTableQuery = $"DELETE FROM {tableName}";
+                SqlCommand clearTableCommand = new SqlCommand(clearTableQuery, connection);
+                clearTableCommand.ExecuteNonQuery();
+
+                // Вставка нових даних
+                foreach (var game in SelectedGamesListBox.Items)
+                {
+                    if (game is Game selectedGame)
+                    {
+                        string insertQuery = $"INSERT INTO {tableName} (Name, Price, Genre) " +
+                            $"VALUES ('{selectedGame.Name}', '{selectedGame.Price}', '{selectedGame.Genre}')";
+
+                        SqlCommand insertCommand = new SqlCommand(insertQuery, connection);
+                        insertCommand.ExecuteNonQuery();
+                    }
+                }
+
+                connection.Close();
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged; // Подія зміни властивостей
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) // Оновлення властивостей
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-        
     }
-    
 
     public class Game // Клас ігор
     {
         public string Name { get; set; } // Назва гри
         public string Price { get; set; } // Ціна гри
         public string Genre { get; set; } // Жанр гри
+        public string Icon { get; set; } // Іконка гри
     }
 }
