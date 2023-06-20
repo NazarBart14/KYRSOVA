@@ -15,8 +15,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using HtmlAgilityPack;
-using System.Data;
-using System.Data.SqlClient;
 
 namespace KYRSOVA
 {
@@ -99,8 +97,6 @@ namespace KYRSOVA
                     SelectedGamesListBox.Items.Add(game);
                 }
             }
-
-            SaveGamesToDatabase();
         }
 
         private void ClearButton_Click(object sender, RoutedEventArgs e)
@@ -110,14 +106,12 @@ namespace KYRSOVA
             if (result == MessageBoxResult.Yes)
             {
                 SelectedGamesListBox.Items.Clear();
-                SaveGamesToDatabase();
             }
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             SelectedGamesListBox.Items.Remove(SelectedGamesListBox.SelectedItem);
-            SaveGamesToDatabase();
         }
 
         private async Task ParseGamesAsync() // Парсинг ігор
@@ -143,7 +137,7 @@ namespace KYRSOVA
                     {
                         Name = nameNode.InnerText.Trim(),
                         Price = priceNode.InnerText.Trim(),
-                        Icon = iconNode?.GetAttributeValue("src", null) // Assign the icon URL if available
+                       
                     };
 
                     if (genreNode != null)
@@ -179,37 +173,6 @@ namespace KYRSOVA
             }
         }
 
-        private void SaveGamesToDatabase() // Збереження ігор в базу даних
-        {
-            string connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Librery;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False"; // Рядок підключення до бази даних
-            string tableName = "GameLibrery"; // Назва таблиці
-
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                connection.Open();
-
-                // Очищення таблиці
-                string clearTableQuery = $"DELETE FROM {tableName}";
-                SqlCommand clearTableCommand = new SqlCommand(clearTableQuery, connection);
-                clearTableCommand.ExecuteNonQuery();
-
-                // Вставка нових даних
-                foreach (var game in SelectedGamesListBox.Items)
-                {
-                    if (game is Game selectedGame)
-                    {
-                        string insertQuery = $"INSERT INTO {tableName} (Name, Price, Genre) " +
-                            $"VALUES ('{selectedGame.Name}', '{selectedGame.Price}', '{selectedGame.Genre}')";
-
-                        SqlCommand insertCommand = new SqlCommand(insertQuery, connection);
-                        insertCommand.ExecuteNonQuery();
-                    }
-                }
-
-                connection.Close();
-            }
-        }
-
         public event PropertyChangedEventHandler PropertyChanged; // Подія зміни властивостей
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null) // Оновлення властивостей
@@ -223,6 +186,6 @@ namespace KYRSOVA
         public string Name { get; set; } // Назва гри
         public string Price { get; set; } // Ціна гри
         public string Genre { get; set; } // Жанр гри
-        public string Icon { get; set; } // Іконка гри
+        
     }
 }
