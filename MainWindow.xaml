@@ -22,7 +22,7 @@
 
         <ListBox Grid.Row="0" Grid.Column="0" x:Name="SelectedGamesListBox" Margin="5,0,5,5"
          ItemsSource="{Binding SelectedGames}" DisplayMemberPath="Name"
-         SelectionMode="Extended"/>
+         SelectionChanged="SelectedGamesListBox_SelectionChanged"/>
         <Button Grid.Row="1" Grid.Column="0" Height="40" Width="70" Content="Clear" Margin="110 10 10 10" Click="ClearButton_Click"/>
         <Button Height="45" Width="100" Grid.Row="1" Grid.Column="1" x:Name="MoveButton" Content="Move" Margin="10,5,160,5" Click="MoveButton_Click"/>
 

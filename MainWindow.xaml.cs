@@ -46,16 +46,7 @@ namespace KYRSOVA
             }
         }
 
-        public string SelectedGenre // Обраний жанр
-        {
-            get { return _selectedGenre; }
-            set
-            {
-                _selectedGenre = value;
-                OnPropertyChanged();
-                RefreshGames();
-            }
-        }
+        
 
         public MainWindow()
         {
@@ -97,11 +88,19 @@ namespace KYRSOVA
                     SelectedGamesListBox.Items.Add(game);
                 }
             }
+            
         }
-
+        private void SelectedGamesListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var selectedGame = SelectedGamesListBox.SelectedItem as Game;
+            if (selectedGame != null)
+            {
+                MessageBox.Show($"Name: {selectedGame.Name}\nPrice: {selectedGame.Price}");
+            }
+        }
         private void ClearButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult result = MessageBox.Show("Ви впевнені, що бажаєте очистити свою бібліотеку?", "Підтвердження видалення", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            MessageBoxResult result = MessageBox.Show("Are you sure you want to clear your library?", "Delete confirmation", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
             if (result == MessageBoxResult.Yes)
             {
@@ -128,8 +127,8 @@ namespace KYRSOVA
             {
                 var nameNode = node.SelectSingleNode(".//span[@class='title']");
                 var priceNode = node.SelectSingleNode(".//div[@class='col search_price_discount_combined responsive_secondrow']");
-                var genreNode = node.SelectSingleNode(".//span[@class='search_tag']/a");
-                var iconNode = node.SelectSingleNode(".//div[@class='col search_capsule']/img");
+                
+                
 
                 if (nameNode != null && priceNode != null)
                 {
@@ -140,38 +139,16 @@ namespace KYRSOVA
                        
                     };
 
-                    if (genreNode != null)
-                    {
-                        var genre = genreNode.InnerText.Trim();
-
-                        if (!genres.Contains(genre))
-                        {
-                            genres.Add(genre);
-                        }
-
-                        game.Genre = genre;
-                    }
-
+                    
                     games.Add(game);
                 }
             }
 
             Games = games;
-            Genres = genres.OrderBy(g => g).ToList();
-            SelectedGenre = string.Empty;
+           
         }
 
-        private void RefreshGames() // Оновлення списку ігор
-        {
-            if (string.IsNullOrEmpty(SelectedGenre)) // Перевірка на обраний жанр
-            {
-                Games = _games; // Оновлення списку ігор на основі вибраного жанру
-            }
-            else
-            {
-                Games = _games.Where(g => g.Genre == SelectedGenre).ToList(); // Фільтрування ігор за обраним жанром
-            }
-        }
+        
 
         public event PropertyChangedEventHandler PropertyChanged; // Подія зміни властивостей
 
@@ -185,7 +162,7 @@ namespace KYRSOVA
     {
         public string Name { get; set; } // Назва гри
         public string Price { get; set; } // Ціна гри
-        public string Genre { get; set; } // Жанр гри
+        
         
     }
 }
