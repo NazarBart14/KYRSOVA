@@ -1,0 +1,17 @@
+﻿<Window x:Class="KYRSOVA.TimerWindows"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:KYRSOVA"
+        mc:Ignorable="d"
+        Title="TimerWindows" Height="200" Width="250">
+    <Grid>
+       
+            <Label x:Name="timerLabel" FontSize="24" Content="00:00:00" Margin="10 10 120 110" />
+        <Button x:Name="startButton" Content="Start" Height="25" Width="70" Margin="-150 10 10 10" Click="startButton_Click" />
+        <Button x:Name="stopButton" Content="Stop" Height="25" Width="70" Margin="0 10 10 10" Click="stopButton_Click" />
+        <Button x:Name="resetButton" Content="Reset" Height="25" Width="70" Margin="150 10 10 10" Click="resetButton_Click" />
+        
+    </Grid>
+</Window>

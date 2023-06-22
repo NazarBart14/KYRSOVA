@@ -156,6 +156,12 @@ namespace KYRSOVA
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        private void TimesButton_Click(object sender, RoutedEventArgs e)
+        {
+            TimerWindows timerWindows = new TimerWindows();
+            timerWindows.Show();
+        }
     }
 
     public class Game // Клас ігор
