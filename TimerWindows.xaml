@@ -13,3 +13,4 @@
         <Button x:Name="resetButton" Content="Reset" Height="25" Width="70" Margin="150 10 10 10" Click="resetButton_Click" Background="Chocolate" />
     </Grid>
 </Window>
+    
