@@ -78,6 +78,26 @@ namespace KYRSOVA
             }
         }
 
+        private void PlaySelectedButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Отримуємо обрані елементи зі списку вибраних ігор
+            var selectedGames = SelectedGamesListBox.SelectedItems.Cast<Game>().ToList();
+
+            if (selectedGames.Any())
+            {
+                // Виконуємо дії для запуску обраних ігор зі збереженими властивостями ігор.
+                // В даному випадку просто відобразимо повідомлення з назвами ігор, які обрали.
+                var gamesNames = string.Join(", ", selectedGames.Select(game => game.Name));
+                MessageBox.Show($"Starting selected games: {gamesNames}", "Games Launch", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            else
+            {
+                // Ви можете виконати інші дії у випадку, якщо не обрано жодної гри
+                MessageBox.Show("Please select games to play.", "Games Selection", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
+
+
         private void MoveButton_Click(object sender, RoutedEventArgs e) // Переміщення вибраних ігор в список вибраних ігор
         {
             foreach (var game in _selectedGames)
@@ -164,6 +184,7 @@ namespace KYRSOVA
         }
     }
 
+
     public class Game // Клас ігор
     {
         public string Name { get; set; } // Назва гри
@@ -171,4 +192,5 @@ namespace KYRSOVA
         
         
     }
+
 }
