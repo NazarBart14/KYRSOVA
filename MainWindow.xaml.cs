@@ -133,6 +133,13 @@ namespace KYRSOVA
             SelectedGamesListBox.Items.Remove(SelectedGamesListBox.SelectedItem);
         }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            RegistrationWindow registrationWindow = new RegistrationWindow();
+            registrationWindow.ShowDialog();
+        }
+
+
         private async Task ParseGamesAsync() // Парсинг ігор
         {
             var games = new List<Game>();
@@ -182,6 +189,8 @@ namespace KYRSOVA
             TimerWindows timerWindows = new TimerWindows();
             timerWindows.Show();
         }
+
+        
     }
 
 

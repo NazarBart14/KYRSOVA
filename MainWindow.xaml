@@ -8,30 +8,45 @@
         Title="Steam Game Parser" Height="480" Width="800" Background="#000099">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="30*"/>
+            <RowDefinition Height="200*"/>
+            <RowDefinition Height="100*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="400"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <ListBox Grid.Row="0" Grid.Column="1" x:Name="GamesListBox" Margin="5"
+        <ListBox Grid.Row="1" Grid.Column="1" x:Name="GamesListBox" Margin="5,5,5,5"
          ItemsSource="{Binding Games}" DisplayMemberPath="Name"
          SelectionMode="Extended" SelectionChanged="GamesListBox_SelectionChanged" Background="Gray"/>
 
-        <ListBox Grid.Row="0" Grid.Column="0" x:Name="SelectedGamesListBox" Margin="5"
+        <ListBox Grid.Row="1" Grid.Column="0" x:Name="SelectedGamesListBox" Margin="5,5,5,5"
              ItemsSource="{Binding SelectedGames}" DisplayMemberPath="Name"
              SelectionChanged="SelectedGamesListBox_SelectionChanged" Background="Gray"/>
-        <Button Grid.Row="1" Grid.Column="0" Height="40" Width="70" Content="Clear" Margin="110 10 10 10" Click="ClearButton_Click" Background="Gray"/>
-        <Button Height="45" Width="100" Grid.Row="1" Grid.Column="1" x:Name="MoveButton" Content="Move" Margin="10,5,260,5" Click="MoveButton_Click" Background="Gray"/>
 
-        <Button Height="45" Width="100" Grid.Row="1" Grid.Column="1" x:Name="ParseButton" Content="Parse" Margin="110,5,120,5" Click="ParseButton_Click" Background="Gray"/>
+        <Grid Background="#000099"  Grid.Row="2" Grid.Column="1" Name="Steam"  >
 
-        <Button Height="45" Width="100" Grid.Row="1" Grid.Column="1" x:Name="PlaySelectedButton" Content="Play" Margin="10,5,-230,5" Click="PlaySelectedButton_Click" Background="Gray"/>
+            <Button Height="30" Width="70" x:Name="MoveButton" Content="Move" Margin="30,80,120,0" Click="MoveButton_Click" Background="Gray"/>
+            <Button Height="30" Width="70" x:Name="ParseButton" Content="Parse" Margin="140,80,60,0" Click="ParseButton_Click" Background="Gray"/>
+            <Button Height="30" Width="70" x:Name="PlaySelectedButton" Content="Play" Margin="250,80,10,0" Click="PlaySelectedButton_Click" Background="Gray"/>
+            
+        </Grid>
+
+        <Grid Background="#000099" Grid.Row="2" Grid.Column="0" Name="Library"  >
+
+            <Button Height="30" Width="70"  Content="Clear" Margin="210,90,110,0" Click="ClearButton_Click" Background="Gray"/>
+            <Button Height="30" Width="70" Content="Delete" Margin="130,90,190,0" Click="DeleteButton_Click" Background="Gray"/>
+            <Button Height="30" Width="70" Content="Times" Margin="50,90,270,0" Click="TimesButton_Click" Background="Gray"/>
+            
+        </Grid>
+
+        <Grid Background="#000099" Grid.ColumnSpan="2" Name="Registration" >
+
+            <Button Content="Registration" Height="30" Width="70" Background="Gray" Margin="720,0,0,0" Click="Button_Click" />
+
+        </Grid>
 
 
-        <Button Grid.Row="1" Grid.Column="0" Height="40" Width="70" Content="Delete" Margin="-50 10 10 10" Click="DeleteButton_Click" Background="Gray"/>
-        <Button Grid.Row="1" Grid.Column="0" Height="40" Width="70" Content="Times" Margin="-210 10 10 10" Click="TimesButton_Click" Background="Gray"/>
     </Grid>
 </Window>
