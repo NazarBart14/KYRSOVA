@@ -5,12 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:KYRSOVA"
         mc:Ignorable="d"
-        Title="TimerWindows" Height="200" Width="250" Background="#FF800000">
+        Title="TimerWindows" Height="200" Width="250" Background="#000099">
     <Grid>
-        <Label x:Name="timerLabel" FontSize="24" Content="00:00:00" Margin="10 10 120 110" Background="Chocolate"/>
-        <Button x:Name="startButton" Content="Start" Height="25" Width="70" Margin="-150 10 10 10" Click="startButton_Click" Background="Chocolate" />
-        <Button x:Name="stopButton" Content="Stop" Height="25" Width="70" Margin="0 10 10 10" Click="stopButton_Click" Background="Chocolate" />
-        <Button x:Name="resetButton" Content="Reset" Height="25" Width="70" Margin="150 10 10 10" Click="resetButton_Click" Background="Chocolate" />
+        <Label x:Name="timerLabel" FontSize="24" Content="00:00:00" Margin="10 10 120 110" Background="Gray"/>
+        <Button x:Name="startButton" Content="Start" Height="25" Width="70" Margin="-150 10 10 10" Click="startButton_Click" Background="Gray" />
+        <Button x:Name="stopButton" Content="Stop" Height="25" Width="70" Margin="0 10 10 10" Click="stopButton_Click" Background="Gray" />
+        <Button x:Name="resetButton" Content="Reset" Height="25" Width="70" Margin="150 10 10 10" Click="resetButton_Click" Background="Gray" />
     </Grid>
 </Window>
     
