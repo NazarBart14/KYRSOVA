@@ -1,39 +1,76 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Data;
+using System.Data.SqlClient;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace KYRSOVA
 {
-    /// <summary>
-    /// Логика взаимодействия для RegistrationWindow.xaml
-    /// </summary>
     public partial class RegistrationWindow : Window
     {
+        private string connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Registred;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
+
         public RegistrationWindow()
         {
             InitializeComponent();
         }
-        private void btnRegister_Click(object sender, RoutedEventArgs e)
+
+        private async Task InsertUserAsync(string username, string password)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    await connection.OpenAsync();
+
+                    string query = "INSERT INTO Regis (Username, Password) VALUES (@Username, @Password)";
+
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@Username", username);
+                        command.Parameters.AddWithValue("@Password", password);
+
+                        await command.ExecuteNonQueryAsync();
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Помилка при вставці даних: " + ex.Message);
+            }
+        }
+
+        private async void btnRegister_Click(object sender, RoutedEventArgs e)
         {
             string username = txtUsername.Text;
             string password = txtPassword.Password;
 
-          
+            await InsertUserAsync(username, password);
 
-            MessageBox.Show("Registration successful!");
+            MessageBox.Show("Реєстрація успішна!");
+        }
+
+        static async Task Main(string[] args)
+        {
+            string connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Registred;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
+
+            SqlConnection connection = new SqlConnection(connectionString);
+            try
+            {
+                await connection.OpenAsync();
+            }
+            catch (SqlException ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                if (connection.State == ConnectionState.Open)
+                {
+                    await connection.CloseAsync();
+                }
+            }
         }
     }
 }
-
-
-
