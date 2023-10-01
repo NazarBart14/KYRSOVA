@@ -46,7 +46,7 @@ namespace KYRSOVA
             }
         }
 
-        
+
 
         public MainWindow()
         {
@@ -54,15 +54,12 @@ namespace KYRSOVA
             DataContext = this;
             _selectedGames = new List<Game>();
             _gamesParsed = false;
-            ParseButton.IsEnabled = !_gamesParsed;
+            ParseGamesAsync(); // Викликаємо метод парсингу автоматично
+            
         }
 
-        private async void ParseButton_Click(object sender, RoutedEventArgs e) // Парсинг ігор
-        {
-            await ParseGamesAsync();
-            ParseButton.IsEnabled = false;
-            _gamesParsed = true;
-        }
+
+       
 
         private void GamesListBox_SelectionChanged(object sender, SelectionChangedEventArgs e) // Вибір ігор
         {
@@ -110,7 +107,7 @@ namespace KYRSOVA
             }
             
         }
-        private void SelectedGamesListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void SelectedGamesListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             var selectedGame = SelectedGamesListBox.SelectedItem as Game;
             if (selectedGame != null)
@@ -149,42 +146,40 @@ namespace KYRSOVA
             GamesListBox.ItemsSource = matchingGames;
         }
 
-        private async Task ParseGamesAsync() // Парсинг ігор
+        private async Task ParseGamesAsync()
         {
             var games = new List<Game>();
-            var genres = new List<string>();
-            var url = "https://store.steampowered.com/search/?sort_by=_ASC&category1=998&page=1";
+            var urlBase = "https://store.steampowered.com/search/?sort_by=_ASC&category1=998&page=";
 
-            var web = new HtmlWeb();
-            var doc = await web.LoadFromWebAsync(url);
-            var nodes = doc.DocumentNode.SelectNodes("//div[@class='responsive_search_name_combined']");
-
-            foreach (var node in nodes) // Парсинг ігор
+            for (int page = 1; page <= 5; page++) // Парсити перші 5 сторінок
             {
-                var nameNode = node.SelectSingleNode(".//span[@class='title']");
-                var priceNode = node.SelectSingleNode(".//div[@class='col search_price_discount_combined responsive_secondrow']");
-                
-                
+                var url = urlBase + page;
+                var web = new HtmlWeb();
+                var doc = await web.LoadFromWebAsync(url);
+                var nodes = doc.DocumentNode.SelectNodes("//div[@class='responsive_search_name_combined']");
 
-                if (nameNode != null && priceNode != null)
+                foreach (var node in nodes) // Парсинг ігор
                 {
-                    var game = new Game
-                    {
-                        Name = nameNode.InnerText.Trim(),
-                        Price = priceNode.InnerText.Trim(),
-                       
-                    };
+                    var nameNode = node.SelectSingleNode(".//span[@class='title']");
+                    var priceNode = node.SelectSingleNode(".//div[@class='col search_price_discount_combined responsive_secondrow']");
 
-                    
-                    games.Add(game);
+                    if (nameNode != null && priceNode != null)
+                    {
+                        var game = new Game
+                        {
+                            Name = nameNode.InnerText.Trim(),
+                            Price = priceNode.InnerText.Trim(),
+                        };
+
+                        games.Add(game);
+                    }
                 }
             }
 
             Games = games;
-           
         }
 
-        
+
 
         public event PropertyChangedEventHandler PropertyChanged; // Подія зміни властивостей
 

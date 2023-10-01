@@ -22,24 +22,24 @@
          SelectionMode="Extended" SelectionChanged="GamesListBox_SelectionChanged" Background="#264E58" Foreground="White"/>
 
         <ListBox Grid.Row="1" Grid.Column="0" x:Name="SelectedGamesListBox" Margin="5,5,5,5"
-             ItemsSource="{Binding SelectedGames}" DisplayMemberPath="Name"
-             SelectionChanged="SelectedGamesListBox_SelectionChanged" Background="#264E58" Foreground="White"/>
-
+         ItemsSource="{Binding SelectedGames}" DisplayMemberPath="Name"
+         MouseDoubleClick="SelectedGamesListBox_MouseDoubleClick"
+         Background="#264E58" Foreground="White"/>
+        
         <Grid   Grid.Row="2" Grid.Column="1" Name="Steam"  >
 
-            <Button Height="30" Width="70" x:Name="MoveButton" Content="Move" Margin="0,70,140,0" Click="MoveButton_Click" Background="#4F4A41" Foreground="White"/>
-            <Button Height="30" Width="70" x:Name="ParseButton" Content="Parse" Margin="10,70,0,0" Click="ParseButton_Click" Background="#4F4A41" Foreground="White"/>
-            <Button Height="30" Width="70" x:Name="PlaySelectedButton" Content="Play" Margin="170,70,10,0" Click="PlaySelectedButton_Click" Background="#4F4A41" Foreground="White"/>
-            <TextBox Name="SearchGameTextBox" Grid.Row="0" Grid.Column="1" Width="200" Height="30" Margin="10 0 0 90" Background="#264E58" Foreground="White"/>
-            <Button Content="Search" Height="30" Width="70" x:Name="SearchButton" Margin="10,0 0,5" Click="SearchButton_Click" Background="#4F4A41" Foreground="White"/>
+            <Button Height="30" Width="70" x:Name="MoveButton" Content="Move" Margin="0,20,140,0" Click="MoveButton_Click" Background="#4F4A41" Foreground="White"/>
+            <Button Height="30" Width="70" x:Name="PlaySelectedButton" Content="Play" Margin="170,20,10,0" Click="PlaySelectedButton_Click" Background="#4F4A41" Foreground="White"/>
+            <TextBox Name="SearchGameTextBox" Grid.Row="0" Grid.Column="1" Width="200" Height="30" Margin="10 20 0 90" Background="#264E58" Foreground="White"/>
+            <Button Content="Search" Height="30" Width="70" x:Name="SearchButton" Margin="10,20 0,0" Click="SearchButton_Click" Background="#4F4A41" Foreground="White"/>
 
         </Grid>
 
         <Grid  Grid.Row="2" Grid.Column="0" Name="Library"  >
 
-            <Button Height="30" Width="70"  Content="Clear" Margin="140,70,0,0" Click="ClearButton_Click" Background="#4F4A41" Foreground="White"/>
-            <Button Height="30" Width="70" Content="Delete" Margin="0,70,10,0" Click="DeleteButton_Click" Background="#4F4A41" Foreground="White"/>
-            <Button Height="30" Width="70" Content="Times" Margin="0,70,160,0" Click="TimesButton_Click" Background="#4F4A41" Foreground="White"/>
+            <Button Height="30" Width="70"  Content="Clear" Margin="140,20,0,0" Click="ClearButton_Click" Background="#4F4A41" Foreground="White"/>
+            <Button Height="30" Width="70" Content="Delete" Margin="0,20,10,0" Click="DeleteButton_Click" Background="#4F4A41" Foreground="White"/>
+            <Button Height="30" Width="70" Content="Times" Margin="0,20,160,0" Click="TimesButton_Click" Background="#4F4A41" Foreground="White"/>
             
         </Grid>
 
