@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace KYRSOVA
 {
     public partial class RegistrationWindow : Window
     {
-        private string connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Registred;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
+        
+        private string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Registred;Integrated Security=True";
 
         public RegistrationWindow()
         {
@@ -20,16 +22,19 @@ namespace KYRSOVA
         {
             try
             {
-                using (SqlConnection connection = new SqlConnection(connectionString))
+                // Хешуємо пароль перед збереженням його в базі даних
+                string hashedPassword = HashPassword(password);
+
+                using (SqlConnection connection = new SqlConnection(connectionString)) // Підключаємося до бази даних
                 {
                     await connection.OpenAsync();
 
-                    string query = "INSERT INTO Regis (Username, Password) VALUES (@Username, @Password)";
+                    string query = "INSERT INTO Regist (Username, Password) VALUES (@Username, @Password)"; // Запит на вставку даних
 
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
                         command.Parameters.AddWithValue("@Username", username);
-                        command.Parameters.AddWithValue("@Password", password);
+                        command.Parameters.AddWithValue("@Password", hashedPassword); // Зберігаємо хеш паролю
 
                         await command.ExecuteNonQueryAsync();
                     }
@@ -41,6 +46,24 @@ namespace KYRSOVA
             }
         }
 
+        private string HashPassword(string password)
+        {
+            // Використовуємо SHA256 для хешування паролю
+            using (SHA256 sha256 = SHA256.Create())
+            {
+                byte[] hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+
+                // Перетворюємо байти в рядок для збереження в базі даних
+                StringBuilder builder = new StringBuilder();
+                for (int i = 0; i < hashedBytes.Length; i++)
+                {
+                    builder.Append(hashedBytes[i].ToString("x2"));
+                }
+
+                return builder.ToString();
+            }
+        }
+
         private async void btnRegister_Click(object sender, RoutedEventArgs e)
         {
             string username = txtUsername.Text;
@@ -49,28 +72,6 @@ namespace KYRSOVA
             await InsertUserAsync(username, password);
 
             MessageBox.Show("Реєстрація успішна!");
-        }
-
-        static async Task Main(string[] args)
-        {
-            string connectionString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Registred;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
-
-            SqlConnection connection = new SqlConnection(connectionString);
-            try
-            {
-                await connection.OpenAsync();
-            }
-            catch (SqlException ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            finally
-            {
-                if (connection.State == ConnectionState.Open)
-                {
-                    await connection.CloseAsync();
-                }
-            }
         }
     }
 }
