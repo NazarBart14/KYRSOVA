@@ -5,13 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:KYRSOVA"
         mc:Ignorable="d"
-        Title="Registration" Height="300" Width="400" Background="Gray">
+        Title="Registration" Height="250" Width="280" Background="#88BDBC">
     <Grid>
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-            <TextBlock Text="Registration" FontSize="20" FontWeight="Bold" Margin="0 0 0 20" Width="119" />
-            <TextBox x:Name="txtUsername" Width="200" Height="30" Margin="0 0 0 10" />
-            <PasswordBox x:Name="txtPassword" Width="200" Height="30" Margin="0 0 0 10" />
-            <Button x:Name="btnRegister" Content="Register" Width="100" Height="30" Click="btnRegister_Click"/>
+            <TextBlock Text="Registration" FontSize="20" FontWeight="Bold" Margin="0 0 0 20" Width="119" Foreground="#264E58"/>
+            <TextBox x:Name="txtUsername" Width="200" Height="30" Margin="0 0 0 10" Background="#264E58" Foreground="White"/>
+            <PasswordBox x:Name="txtPassword" Width="200" Height="30" Margin="0 0 0 10" Background="#264E58" Foreground="White"/>
+            <Button x:Name="btnRegister" Content="Register" Width="100" Height="30" Click="btnRegister_Click" Background="#4F4A41" Foreground="White"/>
         </StackPanel>
  
     </Grid>

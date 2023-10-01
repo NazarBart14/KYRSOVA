@@ -5,12 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:KYRSOVA"
         mc:Ignorable="d"
-        Title="TimerWindows" Height="200" Width="250" Background="#000099">
-    <Grid>
-        <Label x:Name="timerLabel" FontSize="24" Content="00:00:00" Margin="10 10 120 110" Background="Gray"/>
-        <Button x:Name="startButton" Content="Start" Height="25" Width="70" Margin="-150 10 10 10" Click="startButton_Click" Background="Gray" />
-        <Button x:Name="stopButton" Content="Stop" Height="25" Width="70" Margin="0 10 10 10" Click="stopButton_Click" Background="Gray" />
-        <Button x:Name="resetButton" Content="Reset" Height="25" Width="70" Margin="150 10 10 10" Click="resetButton_Click" Background="Gray" />
+        Title="TimerWindows" Height="140" Width="260" Background="#88BDBC">
+    <Grid Margin="0 0 0 0">
+        <Label x:Name="timerLabel" FontSize="24" Content="00:00:00" Margin="10 10 140 50" Background="#264E58" Foreground="White"/>
+        <Button x:Name="startButton" Content="Start" Height="25" Width="70" Margin="0 60 150 0" Click="startButton_Click" Background="#4F4A41" Foreground="White"/>
+        <Button x:Name="stopButton" Content="Stop" Height="25" Width="70" Margin="0 60 0 0" Click="stopButton_Click" Background="#4F4A41" Foreground="White"/>
+        <Button x:Name="resetButton" Content="Reset" Height="25" Width="70" Margin="150 60 0 0" Click="resetButton_Click" Background="#4F4A41" Foreground="White"/>
     </Grid>
 </Window>
     

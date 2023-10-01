@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:KYRSOVA"
         mc:Ignorable="d"
-        Title="Steam Game Parser" Height="480" Width="800" Background="#000099">
+        Title="Steam Game Parser" Height="480" Width="800" Background="#88BDBC">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30*"/>
@@ -19,34 +19,37 @@
 
         <ListBox Grid.Row="1" Grid.Column="1" x:Name="GamesListBox" Margin="5,5,5,5"
          ItemsSource="{Binding Games}" DisplayMemberPath="Name"
-         SelectionMode="Extended" SelectionChanged="GamesListBox_SelectionChanged" Background="Gray"/>
+         SelectionMode="Extended" SelectionChanged="GamesListBox_SelectionChanged" Background="#264E58" Foreground="White"/>
 
         <ListBox Grid.Row="1" Grid.Column="0" x:Name="SelectedGamesListBox" Margin="5,5,5,5"
              ItemsSource="{Binding SelectedGames}" DisplayMemberPath="Name"
-             SelectionChanged="SelectedGamesListBox_SelectionChanged" Background="Gray"/>
+             SelectionChanged="SelectedGamesListBox_SelectionChanged" Background="#264E58" Foreground="White"/>
 
-        <Grid Background="#000099"  Grid.Row="2" Grid.Column="1" Name="Steam"  >
+        <Grid   Grid.Row="2" Grid.Column="1" Name="Steam"  >
 
-            <Button Height="30" Width="70" x:Name="MoveButton" Content="Move" Margin="30,80,120,0" Click="MoveButton_Click" Background="Gray"/>
-            <Button Height="30" Width="70" x:Name="ParseButton" Content="Parse" Margin="140,80,60,0" Click="ParseButton_Click" Background="Gray"/>
-            <Button Height="30" Width="70" x:Name="PlaySelectedButton" Content="Play" Margin="250,80,10,0" Click="PlaySelectedButton_Click" Background="Gray"/>
+            <Button Height="30" Width="70" x:Name="MoveButton" Content="Move" Margin="0,70,140,0" Click="MoveButton_Click" Background="#4F4A41" Foreground="White"/>
+            <Button Height="30" Width="70" x:Name="ParseButton" Content="Parse" Margin="10,70,0,0" Click="ParseButton_Click" Background="#4F4A41" Foreground="White"/>
+            <Button Height="30" Width="70" x:Name="PlaySelectedButton" Content="Play" Margin="170,70,10,0" Click="PlaySelectedButton_Click" Background="#4F4A41" Foreground="White"/>
+            <TextBox Name="SearchGameTextBox" Grid.Row="0" Grid.Column="1" Width="200" Height="30" Margin="10 0 0 90" Background="#264E58" Foreground="White"/>
+            <Button Content="Search" Height="30" Width="70" x:Name="SearchButton" Margin="10,0 0,5" Click="SearchButton_Click" Background="#4F4A41" Foreground="White"/>
+
+        </Grid>
+
+        <Grid  Grid.Row="2" Grid.Column="0" Name="Library"  >
+
+            <Button Height="30" Width="70"  Content="Clear" Margin="140,70,0,0" Click="ClearButton_Click" Background="#4F4A41" Foreground="White"/>
+            <Button Height="30" Width="70" Content="Delete" Margin="0,70,10,0" Click="DeleteButton_Click" Background="#4F4A41" Foreground="White"/>
+            <Button Height="30" Width="70" Content="Times" Margin="0,70,160,0" Click="TimesButton_Click" Background="#4F4A41" Foreground="White"/>
             
         </Grid>
 
-        <Grid Background="#000099" Grid.Row="2" Grid.Column="0" Name="Library"  >
+        <Grid Grid.ColumnSpan="2" Name="Registration">
 
-            <Button Height="30" Width="70"  Content="Clear" Margin="210,90,110,0" Click="ClearButton_Click" Background="Gray"/>
-            <Button Height="30" Width="70" Content="Delete" Margin="130,90,190,0" Click="DeleteButton_Click" Background="Gray"/>
-            <Button Height="30" Width="70" Content="Times" Margin="50,90,270,0" Click="TimesButton_Click" Background="Gray"/>
-            
-        </Grid>
-
-        <Grid Background="#000099" Grid.ColumnSpan="2" Name="Registration" >
-
-            <Button Content="Registration" Height="30" Width="70" Background="Gray" Margin="720,0,0,0" Click="Button_Click" />
+            <Button Content="Registration" Height="30" Width="80" Background="#4F4A41" Margin="680,0,0,0" Click="Registration_Click" Foreground="White"/>
 
         </Grid>
 
+        
 
     </Grid>
 </Window>

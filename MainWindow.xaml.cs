@@ -133,12 +133,21 @@ namespace KYRSOVA
             SelectedGamesListBox.Items.Remove(SelectedGamesListBox.SelectedItem);
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Registration_Click(object sender, RoutedEventArgs e)
         {
             RegistrationWindow registrationWindow = new RegistrationWindow();
             registrationWindow.ShowDialog();
+
         }
 
+        private void SearchButton_Click(object sender, RoutedEventArgs e)
+        {
+            string searchText = SearchGameTextBox.Text.ToLower();
+
+            var matchingGames = Games.Where(game => game.Name.ToLower().Contains(searchText)).ToList();
+
+            GamesListBox.ItemsSource = matchingGames;
+        }
 
         private async Task ParseGamesAsync() // Парсинг ігор
         {
