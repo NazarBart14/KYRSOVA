@@ -17,11 +17,11 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <ListBox Grid.Row="1" Grid.Column="1" x:Name="GamesListBox" Margin="5,5,5,5"
+        <ListBox Grid.Row="1" Grid.Column="1" x:Name="GamesListBox"
          ItemsSource="{Binding Games}" DisplayMemberPath="Name"
          SelectionMode="Extended" SelectionChanged="GamesListBox_SelectionChanged" Background="#264E58" Foreground="White"/>
 
-        <ListBox Grid.Row="1" Grid.Column="0" x:Name="SelectedGamesListBox" Margin="5,5,5,5"
+        <ListBox Grid.Row="1" Grid.Column="0" x:Name="SelectedGamesListBox" 
          ItemsSource="{Binding SelectedGames}" DisplayMemberPath="Name"
          MouseDoubleClick="SelectedGamesListBox_MouseDoubleClick"
          Background="#264E58" Foreground="White"/>
@@ -49,7 +49,36 @@
 
         </Grid>
 
-        
+        <Grid Grid.ColumnSpan="2" Grid.RowSpan="3">
+            <ListBox Margin="0 0 0 435" Height="10" Width="790" Background="#112D32">
+
+            </ListBox>
+            <ListBox Margin="0 0 0 370" Height="10" Width="790" Background="#112D32">
+
+            </ListBox>
+            <ListBox Margin="0 180 0 0" Height="10" Width="800" Background="#112D32">
+
+            </ListBox>
+            <ListBox Margin="0 435 0 0" Height="10" Width="790" Background="#112D32">
+
+            </ListBox>
+            
+           
+        </Grid>
+        <Grid Grid.ColumnSpan="2" Grid.RowSpan="3">
+            <ListBox Margin="10 30 0 0" Height="430" Width="10" Background="#112D32">
+
+            </ListBox>
+            <ListBox Margin="0 0 780 0" Height="480" Width="10" Background="#112D32">
+
+            </ListBox>
+            <ListBox Margin="800 320 0 0" Height="140" Width="10" Background="#112D32">
+
+            </ListBox>
+
+
+
+        </Grid>
 
     </Grid>
 </Window>
