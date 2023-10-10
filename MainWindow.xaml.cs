@@ -55,15 +55,15 @@ namespace KYRSOVA
             _selectedGames = new List<Game>();
             _gamesParsed = false;
             ParseGamesAsync(); // Викликаємо метод парсингу автоматично
-            
+
         }
 
 
-       
+
 
         private void GamesListBox_SelectionChanged(object sender, SelectionChangedEventArgs e) // Вибір ігор
         {
-            var selectedItems = GamesListBox.SelectedItems;
+            var selectedItems = GamesListView.SelectedItems;
             _selectedGames.Clear();
 
             foreach (var item in selectedItems) // Додавання вибраних ігор в список вибраних ігор
@@ -78,7 +78,7 @@ namespace KYRSOVA
         private void PlaySelectedButton_Click(object sender, RoutedEventArgs e)
         {
             // Отримуємо обрані елементи зі списку вибраних ігор
-            var selectedGames = SelectedGamesListBox.SelectedItems.Cast<Game>().ToList();
+            var selectedGames = SelectedGamesListView.SelectedItems.Cast<Game>().ToList();
 
             if (selectedGames.Any())
             {
@@ -99,17 +99,17 @@ namespace KYRSOVA
         {
             foreach (var game in _selectedGames)
             {
-                if (!SelectedGamesListBox.Items.Contains(game))
+                if (!SelectedGamesListView.Items.Contains(game))
                 {
                     Games.Remove(game);
-                    SelectedGamesListBox.Items.Add(game);
+                    SelectedGamesListView.Items.Add(game);
                 }
             }
-            
+
         }
         private void SelectedGamesListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            var selectedGame = SelectedGamesListBox.SelectedItem as Game;
+            var selectedGame = SelectedGamesListView.SelectedItem as Game;
             if (selectedGame != null)
             {
                 MessageBox.Show($"Name: {selectedGame.Name}\nPrice: {selectedGame.Price}");
@@ -121,13 +121,13 @@ namespace KYRSOVA
 
             if (result == MessageBoxResult.Yes)
             {
-                SelectedGamesListBox.Items.Clear();
+                SelectedGamesListView.Items.Clear();
             }
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            SelectedGamesListBox.Items.Remove(SelectedGamesListBox.SelectedItem);
+            SelectedGamesListView.Items.Remove(SelectedGamesListView.SelectedItem);
         }
 
         private void Registration_Click(object sender, RoutedEventArgs e)
@@ -143,7 +143,7 @@ namespace KYRSOVA
 
             var matchingGames = Games.Where(game => game.Name.ToLower().Contains(searchText)).ToList();
 
-            GamesListBox.ItemsSource = matchingGames;
+            GamesListView.ItemsSource = matchingGames;
         }
 
         private async Task ParseGamesAsync()
@@ -151,7 +151,7 @@ namespace KYRSOVA
             var games = new List<Game>();
             var urlBase = "https://store.steampowered.com/search/?sort_by=_ASC&category1=998&page=";
 
-            for (int page = 1; page <= 5; page++) // Парсити перші 5 сторінок
+            for (int page = 1; page <= 5; page++) // Парсити перші 
             {
                 var url = urlBase + page;
                 var web = new HtmlWeb();
@@ -194,7 +194,7 @@ namespace KYRSOVA
             timerWindows.Show();
         }
 
-        
+
     }
 
 
@@ -202,8 +202,8 @@ namespace KYRSOVA
     {
         public string Name { get; set; } // Назва гри
         public string Price { get; set; } // Ціна гри
-        
-        
+
+
     }
 
 }

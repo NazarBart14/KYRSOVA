@@ -68,10 +68,17 @@ namespace KYRSOVA
         {
             string username = txtUsername.Text;
             string password = txtPassword.Password;
+            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
+            {
+                MessageBox.Show("Введіть email і пароль!");
+            }
+            else
+            {
+                await InsertUserAsync(username, password); // Викликаємо метод вставки даних
 
-            await InsertUserAsync(username, password);
-
-            MessageBox.Show("Реєстрація успішна!");
+                MessageBox.Show("Реєстрація успішна!");
+            }
         }
+
     }
 }
