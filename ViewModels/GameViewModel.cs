@@ -1,21 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace KYRSOVA
 {
-    public class GameViewModel
+    public class GameViewModel : INotifyPropertyChanged
     {
-        public List<Game> Games { get; set; }
-        public List<Game> SelectedGames { get; set; }
-
-        public GameViewModel()
+        private List<Game> _games;
+        public List<Game> Games
         {
-            Games = new List<Game>();
-            SelectedGames = new List<Game>();
+            get { return _games; }
+            set
+            {
+                _games = value;
+                OnPropertyChanged(nameof(Games));
+            }
         }
+        public event PropertyChangedEventHandler PropertyChanged;
 
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

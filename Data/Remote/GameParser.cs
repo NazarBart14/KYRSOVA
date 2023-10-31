@@ -13,14 +13,21 @@ namespace KYRSOVA
     {
         private MainWindow _mainWindow;
 
-        // Конструктор, в якому отримуємо посилання на головне вікно
+        // Конструктор, в якому отримуємо посилання на головне вікно        
         public GameParser(MainWindow mainWindow)
         {
             _mainWindow = mainWindow;
+            _httpClient = new HttpClient(); // Ініціалізуємо _httpClient
             ParseGamesAsync();
         }
+        public void SetGames(List<Game> games)
+        {
+            Games = games;
+            UpdateGamesListView();
+        }
 
-
+        private int _currentPage = 1;
+        private int _itemsPerPage = 25; // Кількість елементів на одній сторінці
 
         // Метод для парсингу ігор
         public async Task ParseGamesAsync()
@@ -57,46 +64,60 @@ namespace KYRSOVA
             OnPropertyChanged(nameof(Games));
         }
 
+       
+        private void UpdatePageInfo()
+        {
+            int totalItems = Games.Count; // Загальна кількість ігор
+            int totalPages = (int)Math.Ceiling((double)totalItems / _itemsPerPage);
+            PageInfoTextBlock.Text = $"Page {_currentPage} of {totalPages}";
+        }
 
+        private void UpdateGamesListView()
+        {
+            // Відображення ігор на поточній сторінці
+            var gamesOnCurrentPage = Games.Skip((_currentPage - 1) * _itemsPerPage).Take(_itemsPerPage).ToList();
+            GamesListView.ItemsSource = gamesOnCurrentPage;
+            UpdatePageInfo();
+        }
 
 
         private readonly HttpClient _httpClient;
 
 
-        public async Task<List<string>> GetRemoteDataAsync()
-        {
-            List<string> remoteData = new List<string>();
+        //public async Task<List<string>> GetRemoteDataAsync()
+        //{
+        //    List<string> remoteData = new List<string>();
 
-            try
-            {
-                // URL віддаленого сервера, до якого ви хочете зробити запит
-                string apiUrl = "https://example.com/api/data";
+        //    try
+        //    {
+        //        // URL віддаленого сервера, до якого ви хочете зробити запит
+        //        string apiUrl = "https://example.com/api/data";
 
-                // Виконання GET запиту до сервера
-                HttpResponseMessage response = await _httpClient.GetAsync(apiUrl);
+        //        // Виконання GET запиту до сервера
+        //        HttpResponseMessage response = await _httpClient.GetAsync(apiUrl);
 
-                // Перевірка, чи запит був успішним
-                if (response.IsSuccessStatusCode)
-                {
-                    // Отримання відповіді у вигляді рядка
-                    string responseData = await response.Content.ReadAsStringAsync();
+        //        // Перевірка, чи запит був успішним
+        //        if (response.IsSuccessStatusCode)
+        //        {
+        //            // Отримання відповіді у вигляді рядка
+        //            string responseData = await response.Content.ReadAsStringAsync();
 
-                    // Розділення рядка на окремі рядки (наприклад, розділити за символом нового рядка)
-                    remoteData = responseData.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).ToList();
-                }
-                else
-                {
-                    // Обробка помилки, якщо запит був неуспішним
-                    Console.WriteLine("Помилка: " + response.StatusCode);
-                }
-            }
-            catch (Exception ex)
-            {
-                // Обробка винятку, якщо сталася помилка під час виконання запиту
-                Console.WriteLine("Помилка: " + ex.Message);
-            }
+        //            // Розділення рядка на окремі рядки (наприклад, розділити за символом нового рядка)
+        //            remoteData = responseData.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries).ToList();
+        //        }
+        //        else
+        //        {
+        //            // Обробка помилки, якщо запит був неуспішним
+        //            Console.WriteLine("Помилка: " + response.StatusCode);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // Обробка винятку, якщо сталася помилка під час виконання запиту
+        //        Console.WriteLine("Помилка: " + ex.Message);
+        //    }
 
-            return remoteData;
-        }
+        //    return remoteData;
+        //}
     }
 }

@@ -12,7 +12,7 @@ using HtmlAgilityPack;
 
 namespace KYRSOVA
 {
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, INotifyPropertyChanged
     {
         public bool _gamesParsed;
         public List<Game> _games;
@@ -22,6 +22,16 @@ namespace KYRSOVA
         private GameParser _gameParser;
         public GameEntity _gameEntity;
 
+        public MainWindow()
+        {
+            InitializeComponent();
+            DataContext = this;
+            GameViewModel = new GameViewModel();
+            _games = new List<Game>();
+            _selectedGames = new List<Game>();
+            _genres = new List<string>();
+            _gamesParsed = false;
+        }
 
         public List<Game> Games
         {
@@ -29,7 +39,7 @@ namespace KYRSOVA
             set
             {
                 _games = value;
-                // OnPropertyChanged("Games");
+                OnPropertyChanged("Games");
             }
         }
 
@@ -39,7 +49,7 @@ namespace KYRSOVA
             set
             {
                 _genres = value;
-                // OnPropertyChanged("Genres");
+                OnPropertyChanged("Genres");
             }
         }
 
@@ -50,38 +60,46 @@ namespace KYRSOVA
             set
             {
                 _gameViewModel = value;
-                //  OnPropertyChanged("GameViewModel");
+                OnPropertyChanged("GameViewModel");
             }
         }
 
-        public MainWindow()
-        {
-            InitializeComponent();
-            DataContext = this;
-            GameViewModel = new GameViewModel();
-            _gamesParsed = false;
+        
 
+
+
+        public bool GamesParsed
+        {
+            get { return _gamesParsed; }
+            set
+            {
+                _gamesParsed = value;
+                OnPropertyChanged(nameof(GamesParsed));
+            }
         }
 
-        public void SetGames(List<Game> games)
-        {
-            Games = games;
-            UpdateGamesListView();
-        }
 
 
 
         private void GamesListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            _selectedGames.Clear();
-            foreach (var item in GamesListView.SelectedItems)
+            if (_selectedGames == null)
             {
-                if (item is Game game)
+                _selectedGames = new List<Game>();
+            }
+            else
+            {
+                _selectedGames.Clear();
+                foreach (var item in GamesListView.SelectedItems)
                 {
-                    _selectedGames.Add(game);
+                    if (item is Game game)
+                    {
+                        _selectedGames.Add(game);
+                    }
                 }
             }
         }
+
 
         private void MoveButton_Click(object sender, RoutedEventArgs e)
         {
@@ -116,52 +134,38 @@ namespace KYRSOVA
             TimerWindows timerWindows = new TimerWindows();
             timerWindows.Show();
         }
-        private int _currentPage = 1;
-        private int _itemsPerPage = 25; // Кількість елементів на одній сторінці
-
-        private void UpdatePageInfo()
-        {
-            int totalItems = Games.Count; // Загальна кількість ігор
-            int totalPages = (int)Math.Ceiling((double)totalItems / _itemsPerPage);
-            PageInfoTextBlock.Text = $"Page {_currentPage} of {totalPages}";
-        }
-
-        private void UpdateGamesListView()
-        {
-            // Відображення ігор на поточній сторінці
-            var gamesOnCurrentPage = Games.Skip((_currentPage - 1) * _itemsPerPage).Take(_itemsPerPage).ToList();
-            GamesListView.ItemsSource = gamesOnCurrentPage;
-            UpdatePageInfo();
-        }
+        
 
         private void NextButton_Click(object sender, RoutedEventArgs e)
         {
-            // Перехід на наступну сторінку, якщо існують ще елементи
-            int totalItems = Games.Count;
-            int totalPages = (int)Math.Ceiling((double)totalItems / _itemsPerPage);
-            if (_currentPage < totalPages)
-            {
-                _currentPage++;
-                UpdateGamesListView();
-            }
+            //// Перехід на наступну сторінку, якщо існують ще елементи
+            //int totalItems = Games.Count;
+            //int totalPages = (int)Math.Ceiling((double)totalItems / _itemsPerPage);
+            //if (_currentPage < totalPages)
+            //{
+            //    _currentPage++;
+            //    UpdateGamesListView();
+            //}
         }
 
         private void PreviousButton_Click(object sender, RoutedEventArgs e)
         {
-            // Перехід на попередню сторінку, якщо не перший рядок
-            if (_currentPage > 1)
-            {
-                _currentPage--;
-                UpdateGamesListView();
-            }
+            //// Перехід на попередню сторінку, якщо не перший рядок
+            //if (_currentPage > 1)
+            //{
+            //    _currentPage--;
+            //    UpdateGamesListView();
+            //}
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged; // Подія, яка виникає при зміні властивості
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            PropertyChanged.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+
     }
 
 

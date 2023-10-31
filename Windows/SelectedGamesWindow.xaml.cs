@@ -15,7 +15,7 @@ using System.Windows.Shapes;
 namespace KYRSOVA
 {
 
-    public partial class SelectedGamesWindow 
+    public partial class SelectedGamesWindow  : Window
     {
         public SelectedGamesWindow()
         {
@@ -60,5 +60,6 @@ namespace KYRSOVA
             SelectedGamesListView.Items.Remove(SelectedGamesListView.SelectedItem);
         }
 
+       
     }
 }
